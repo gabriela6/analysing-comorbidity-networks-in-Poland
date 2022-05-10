@@ -28,11 +28,11 @@ def create_data2(data):
     data2 = data2.reset_index(drop=True)
     # zmiana 4-znakowego kodu na 3-znakowy
     data2['kod_koder'] = data2['kod_koder'].str.slice(0, 3, 1)
-    # usuniêcie pola kod_karta
+    # usuniecie pola kod_karta
     data2 = data2.drop('kod_karta', axis=1)
     return data2
 
-# wypisanie iloœci kart
+# wypisanie ilosci kart
 def number_of_all_and_men_and_women(data):
     print("all",len(data))
     print("men",len(data[(data['plec'] == 1)]))
@@ -55,11 +55,11 @@ class DiseaseCodesType:
         elif choroby_smiec == "roz":
             self.lista = 'Lista_rozszerzona'
 
-    # tworzenie listy unikalnych kodów
+    # tworzenie listy unikalnych kodow
     def create_uniq_arr(self, data2):
-        #wczytanie tylko kart dla danej p³ci
+        #wczytanie tylko kart dla danej plci
         df = data2[data2['plec'] == self.plec_nr]
-        #sp³aszczenie tabeli i wybranie unikalnych kodów, usuniêcie pustych wpisów ""
+        #splaszczenie tabeli i wybranie unikalnych kodow, usuniecie pustych wpisow ""
         flat_arr = df[
             ['kod_koder', 'wtrna1', 'wtrna2', 'wtrna3',
              'wtrna4', 'wtrna5', 'wtrna6', 'wtrna7',
@@ -71,7 +71,7 @@ class DiseaseCodesType:
         uniq_arr = np.delete(uniq_arr, index)
         self.uniq_arr = uniq_arr
 
-        # odrzucenie kodów z list kodów œmieciowych
+        # odrzucenie kodow z list kodow smieciowych
         if self.lista == 'Lista_podstawowa' or self.lista == 'Lista_rozszerzona':
             df_tc = pd.read_csv("kody_smieciowe_3lit.csv", sep=";",
                                 dtype={'Lista_podstawowa': str, 'Lista_rozszerzona': str})
@@ -79,34 +79,34 @@ class DiseaseCodesType:
             uniq_arr = np.array(uniq_arr)
             self.uniq_arr = uniq_arr
 
-    # zapis listy iloœci wyst¹pieñ chorób
+    # zapis listy ilosci wystapien chorob
     def save_ill_counts(self, data2):
-        # tworzenie listy unikalnych kodów w wierszu, usuniêcie pustych wpisów ""
+        # tworzenie listy unikalnych kodow w wierszu, usuniecie pustych wpisow ""
         def create_uniq_row(data2_row):
             uniq_ill = data2_row[8:27].unique()
             index = np.argwhere(uniq_ill == '')
             uniq_ill = np.delete(uniq_ill, index)
             return pd.Series(dict(zip(list(range(8, 27)), uniq_ill)))
 
-        # zastosowanie funkcji create_uniq_row tylko do kart osób o danej p³ci
+        # zastosowanie funkcji create_uniq_row tylko do kart osob o danej plci
         data3 = data2[data2['plec'] == self.plec_nr].apply(create_uniq_row, axis=1)
-        # sp³aszczenie tabeli
+        # splaszczenie tabeli
         ill_counts_series = data3.stack().value_counts(dropna=True)
         ill_counts_series = ill_counts_series.reindex(self.uniq_arr)
         # zapis
         ill_counts_series.to_csv('ill_counts/ill_counts_' + self.plec + '_' + self.choroby_smiec + '.csv')
 
-    # utworzenie i zapis macierzy s¹siedztwa
+    # utworzenie i zapis macierzy sasiedztwa
     def create_and_save_adj_matrix(self, data2):
         # utworzenie pustej tabeli
         adj_matrix = pd.DataFrame(columns=self.uniq_arr, index=self.uniq_arr)
         adj_matrix = adj_matrix.fillna(0)
-        # wype³nienie macierzy s¹siedztwa dla jednego wiersza bazy kart
+        # wypelnienie macierzy sasiedztwa dla jednego wiersza bazy kart
         def fill_a_m_row(data2_row, adj_matrix):
-            # tworzenie listy unikalnych kodów w wierszu, usuniêcie pustych wpisów ""
+            # tworzenie listy unikalnych kodow w wierszu, usuniecie pustych wpisow ""
             uniq_ill = pd.Series(pd.unique(data2_row[8:27]))
             uniq_ill.drop(uniq_ill.index[uniq_ill == ''], inplace=True)
-            # iterowanie po liœcie unikalnych kodów i zwiêkszanie odpowiednich pól macierzy s¹siedztwa
+            # iterowanie po liscie unikalnych kodow i zwiekszanie odpowiednich pol macierzy sasiedztwa
             for j in uniq_ill:
                 for i in uniq_ill:
                     if (i != j):
@@ -119,12 +119,12 @@ class DiseaseCodesType:
                                 i in list(adj_matrix.columns) and j in list(adj_matrix.columns))):
                             adj_matrix.at[i, j] = adj_matrix.at[i, j] + 1
 
-        # zastosowanie funkcji fill_a_m_row tylko do kart osób o danej p³ci
+        # zastosowanie funkcji fill_a_m_row tylko do kart osÃ³b o danej plci
         data2[data2['plec'] == self.plec_nr].apply(fill_a_m_row, adj_matrix=adj_matrix, axis=1)
         #zapis
         adj_matrix.to_csv('adj_matrix/adj_matrix_' + self.plec + '_' + self.choroby_smiec + '.csv', index=False)
 
-#utworzenie listy obiektów rodzajów kodów
+#utworzenie listy obiektÃ³w rodzajow kodow
 def create_dt_list():
     dt1 = DiseaseCodesType("m", "wszyst")
     dt2 = DiseaseCodesType("m", "podst")
