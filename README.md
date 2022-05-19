@@ -1,3 +1,7 @@
+<p align="center">
+<img src="https://github.com/gabriela6/analysing-comorbidity-networks-in-Poland/blob/main/images/graph_men_all_diseases.png" height="200"> <img src="https://github.com/gabriela6/analysing-comorbidity-networks-in-Poland/blob/main/images/graph_women_all_diseases.png" height="200">
+</p>
+
 # analysing-comorbidity-networks-in-Poland
 The study has been done as an engineering thesis “Analysing comorbidity networks in Poland based on data from death reports“ at Warsaw University of Technology, Faculty of Physics. My thesis supervisor was Dr Anna Chmiel from Physics of Complex Systems Division. 
 
@@ -11,7 +15,7 @@ The network was visualized and the connections between diseases were analyzed. T
 The study also analyzed alternative weights - standardized weight and corrected phi coefficient, allowing for the comparison of the strength of connections regardless of the frequency of diseases. A strong correlation was found between these weights.
 
 ## Data source 
-The analysis was based on data from the 2013 collection of death certificates from all over Poland. They were kept for the purpose of testing the software that automatically encodes the causes of death (Wasilewski, 2013), and were later used in the "Causes of death in Poland" grant of a Migration Research Center. The dataset is not publicly available. 
+The analysis was based on data from the 2013 collection of death certificates from all over Poland. They were kept for the purpose of testing the software that automatically encodes the causes of death[24], and were later used in the "Causes of death in Poland" grant of a Migration Research Center[25]. The dataset is not publicly available. 
 The database is a csv file with 387 989 lines, where each line contains data from one death certificate.
 The data columns contain the following information used in this work:
 - type of death certificate
@@ -25,22 +29,18 @@ The data columns contain the following information used in this work:
 - secondary cause of death code (three-character ICD-10 code)
 - immediate cause of death code (three-character ICD-10 code)
 
-Wasilewski, W. Analiza porównawcza kodowania przyczyn zgonów oprogramowaniem IRIS i metodą manualną. Urząd Statystyczny w Olsztynie. 2013.
-
-Przyczyny zgonu w Polsce. Ośrodek Badań nad Migracjami. [Online] [Cited: 19 styczeń 2022.] http://www.migracje.uw.edu.pl/projects/przyczyny-zgonu-w-polsce/.
-
 ## Used technologies
 - Python 3.8 with libraries: pandas, powerlaw, igraph, Matplotlib, NumPy, SciPy, scikit-learn
 - Cytoscape 3.7.0
 
 ## Results and Conclusions
-Short introduction to the topic with most relevant results and conclusions are presented in powerpoint presentation “prezentacja obrona” included in this repository. Presentation is written in Polish. 
+Short introduction to the topic with most relevant results and conclusions are presented in powerpoint presentation “prezentacja obrona” included in this repository. Presentation was written in Polish. 
 
 ## Thesis
 Full thesis text is available in National Repository of Written Diploma Theses https://polon.nauka.gov.pl/orpd/login
 
 ## Source code
-Source code is located in this repository in 2 .py files. Comments in code are written in Polish. 
+Source code is located in this repository in two .py files. Comments in code are written in Polish. 
 
 ## Sources
 [1] The Academy of Medical Sciences. Multimorbidity: a priority for global health research. [Online] [Cited: 18 January 2022.] https://acmedsci.ac.uk/policy/policy-projects/multimorbidity.
